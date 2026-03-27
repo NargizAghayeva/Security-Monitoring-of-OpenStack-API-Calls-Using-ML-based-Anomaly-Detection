@@ -1,0 +1,81 @@
+# Data Collection — Usage Guide
+
+## Run order
+```
+config.py → 1_normal → 2_brute → 3_portscan → 4_webattack → 5_dos → 7_verify
+```
+
+## Step 1 — Edit config.py
+```python
+DEVSTACK_HOST = "http://192.168.x.x"   # your DevStack IP
+ADMIN_PASSWORD = "..."                  # password from localrc
+```
+
+## Step 2 — Create test users (one-time setup)
+```bash
+source /opt/stack/openrc admin admin
+for i in 1 2 3 4 5; do
+  openstack user create --password test123 --project demo user$i
+  openstack role add --user user$i --project demo member
+done
+```
+
+## Step 3 — Run scripts in order
+
+### Normal traffic (~45-90 minutes)
+```bash
+python3 1_normal_traffic.py --target 8000
+```
+
+### Brute Force (~20 minutes)
+```bash
+python3 2_attack_brute.py --target 2000 --mode mixed
+```
+
+### Port Scan (~15 minutes)
+```bash
+python3 3_attack_portscan.py --target 2000
+```
+
+### Web Attack (~30 minutes)
+```bash
+python3 4_attack_webattack.py --target 2000
+```
+
+### DoS (~10 minutes)
+```bash
+python3 5_attack_dos.py --target 2000
+```
+
+## Step 4 — Verify and merge
+```bash
+python3 7_verify_dataset.py
+```
+
+## Output files
+```
+collected_data/
+├── raw_normal.csv          (8000+ rows, label=0)
+├── raw_brute_mixed.csv     (2000 rows,  label=1)
+├── raw_portscan.csv        (2000 rows,  label=1)
+├── raw_webattack.csv       (2000 rows,  label=1)
+├── raw_dos.csv             (2000 rows,  label=1)
+├── final_normal.csv        (merged normal)
+├── final_attack.csv        (merged attacks)
+└── final_dataset.csv       (all data, shuffled)
+```
+
+## Expected statistics after collection
+| Type       | Count  | fail_rate | req_rate/60s | Key signal             |
+|------------|--------|-----------|--------------|------------------------|
+| Normal     | 8,000  | ~5%       | 2-10         | baseline               |
+| Brute      | 2,000  | ~95%      | 20-80        | high fail_rate         |
+| Port Scan  | 2,000  | ~60%      | 30-100       | many unique endpoints  |
+| Web Attack | 2,000  | ~70%      | 5-20         | large request_bytes    |
+| DoS        | 2,000  | ~30%      | 100-300      | extreme req_rate       |
+
+## Quick smoke test (before full collection)
+```bash
+python3 1_normal_traffic.py --target 50
+```
+If 50 rows appear in `collected_data/raw_normal.csv`, everything is working.
