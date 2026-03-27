@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-7_verify_dataset.py
+6_verify_dataset.py
 ====================
 Merges all collected CSVs and verifies dataset quality.
 
