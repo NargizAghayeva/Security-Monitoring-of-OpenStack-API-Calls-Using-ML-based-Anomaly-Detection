@@ -284,7 +284,7 @@ All random seeds are fixed (`random_state=42`, TensorFlow seed not explicitly se
 slug: security-monitoring-openstack-ml-anomaly-detection
 title: Security Monitoring of OpenStack API Calls Using ML-Based Anomaly Detection
 summary: Unsupervised autoencoder-based anomaly detection for OpenStack Keystone and Nova APIs. Track 1 uses transfer learning from CICIDS2017 achieving F1=0.9981 and ROC-AUC=1.0000. Track 2 detects Nova log anomalies achieving F1=0.9900 and ROC-AUC=0.9995.
-startDate: 2025-02-15
+startDate: 2025-01-15
 endDate: 2025-04-30
 repositoryUrl: https://github.com/NargizAghayeva/Security-Monitoring-of-OpenStack-API-Calls-Using-ML-based-Anomaly-Detection
 logos:
