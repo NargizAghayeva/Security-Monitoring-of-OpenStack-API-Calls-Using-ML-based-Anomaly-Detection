@@ -78,7 +78,7 @@ openstack-anomaly-detection/
 
 | File | Description |
 |------|-------------|
-| `cicids2017_cleaned.csv` | Preprocessed CICIDS2017 dataset (52 features + `Attack Type` label) |
+| `cicids2017_cleaned.csv` | Preprocessed CICIDS2017 dataset (52 features + `Attack Type` label) can be downloaded here: https://www.kaggle.com/datasets/ericanacletoribeiro/cicids2017-cleaned-and-preprocessed|
 | `final_dataset.csv` | Real OpenStack Keystone API logs with columns: `timestamp`, `source_ip`, `request_bytes`, `response_bytes`, `http_method`, `endpoint_category`, `fail_rate_per_ip_60s`, `label`, `attack_type` |
 
 ---
